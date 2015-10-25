@@ -61,8 +61,13 @@ int main(int argc, char *argv[])
 				n = recv(newsock, readBuffer, sizeof(readBuffer),0);
 				if ( n < 1 ){
 					error("recv - non blocking \n");
-					printf("Round %d, and the data read size is : %d \n", i, n);
-					
+					printf("Round %d, data read size : %d \n", i, n);
+				}
+				else{
+					readBuffer[n] = '\0';
+					printf("String : %s \n", readBuffer);
+					if((send(newsock, "Hello from Masukami!\n", 14, 0)) < 1)
+						error("send");
 				}
 			}
 		}

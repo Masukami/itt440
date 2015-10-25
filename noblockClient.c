@@ -16,7 +16,7 @@ void error(char *msg)
 
 int main(int argc, char *argv[])
 {
-	int sock, numbytes;
+	int sock;
 	char buff[300];
 	struct hostent *host;
 	struct sockaddr_in server;
@@ -42,9 +42,12 @@ int main(int argc, char *argv[])
 	
 	//sleep 5 seconds
 	while(1){
+		//pitfall 1
 		if ( send(sock, "Hello to Masukami!\n", 14, 0) < 0 )
 			error("send");
-		}
+		else
+			printf("Send succeeded!");
+	}
 	close(sock);
 	return 0;
 }

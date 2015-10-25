@@ -17,7 +17,7 @@ void error(char *msg)
 
 int main(int argc, char *argv[])
 {
-	int sock, newsock, oldsock, n, i;
+	int sock, newsock, oldsock, n, i, status;
 	struct sockaddr_in server, cli;
 	unsigned int len;
 	char readBuffer[255];
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
 	if ((newsock = accept(sock, (struct sockaddr *)&cli, &len)) < 0)
 		error("accept");
-	
+
 	fcntl (oldsock, F_SETFL, O_NONBLOCK);
 	fcntl (newsock, F_SETFL, O_NONBLOCK);
 
@@ -50,10 +50,10 @@ int main(int argc, char *argv[])
 		for ( i = sock; i <= oldsock; i++ ){
 			printf("Round number %d\n", i);
 			if ( i == sock){
-				len = sizeof(struct sockaddr_in);
-				if (( newsock = accept(sock, (struct sockaddr *)&cli, &len)) < 0)
+				len = sizeof(struct sockaddr_in);				
+				if ((newsock = accept(sock, (struct sockaddr *)&cli, &len))  < 0 )
 					error("accept");
-			printf("Server : Connection from %s!\n", inet_ntoa(cli.sin_addr));
+				printf("Server : Connection from %s!\n", inet_ntoa(cli.sin_addr));
 			fcntl(newsock, F_SETFL, O_NONBLOCK);
 			oldsock = newsock;
 			}

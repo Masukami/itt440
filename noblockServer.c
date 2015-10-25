@@ -29,9 +29,15 @@ int main(int argc, char *argv[])
 	oldsock = sock;
 		
 	server.sin_family = AF_INET;
-	server.sin_port = htons(3059);
+	server.sin_port = htons(3059); //pitfall 4
 	server.sin_addr.s_addr = INADDR_ANY;
 	bzero(&server.sin_zero, 8);
+	
+	//pitfall 3
+	int on,ret;
+	on = 1;
+
+	ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
 
 	len = sizeof(struct sockaddr_in);
 		

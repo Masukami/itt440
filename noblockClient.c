@@ -44,8 +44,7 @@ int main(int argc, char *argv[])
 	while(1){
 		if ( send(sock, "Hello to Masukami!\n", 14, 0) < 0 )
 			error("send");
-		printf("Looping \n");
-	}
+		}
 	close(sock);
 	return 0;
 }

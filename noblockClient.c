@@ -16,7 +16,7 @@ void error(char *msg)
 
 int main(int argc, char *argv[])
 {
-	int sock;
+	int sock, status;
 	char buff[300];
 	struct hostent *host;
 	struct sockaddr_in server;
@@ -39,7 +39,17 @@ int main(int argc, char *argv[])
 		
 	if (connect (sock, (struct sockaddr *)&server, sizeof(struct sockaddr)) < 0)
 		error("connect");
-	
+	//pitfall 2
+	status = read(sock, buff, sizeof(buff));
+	if ( status > 0 )
+		printf("Data read from socket!");
+	else if ( status < 0 )
+		error("read");
+	else if ( status == 0 ){
+		printf("Peer closed the socket");
+		close(sock);
+	}
+
 	//sleep 5 seconds
 	while(1){
 		//pitfall 1
